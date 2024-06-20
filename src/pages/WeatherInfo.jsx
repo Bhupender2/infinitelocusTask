@@ -12,7 +12,7 @@ function WeatherInfo({ addHistory }) {
 
   async function fetchWeather() {
     setLoading(true);
-    const url = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=8`;
+    const url = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=8`;
     try {
       const response = await axios.get(url);
       setWeather(response.data);
