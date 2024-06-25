@@ -8,10 +8,12 @@ function WeatherInfo({ addHistory }) {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null); // Add error state
   const navigate = useNavigate();
 
   async function fetchWeather() {
     setLoading(true);
+    setError(null); // Reset error state before fetching
     const url = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=8`;
     try {
       const response = await axios.get(url);
@@ -20,6 +22,7 @@ function WeatherInfo({ addHistory }) {
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching weather data", error);
+      setError("Could not fetch weather data. Please try again."); // Set error message
     } finally {
       setLoading(false);
     }
@@ -27,7 +30,7 @@ function WeatherInfo({ addHistory }) {
 
   return (
     <div>
-    <div className="headline">WEATHER </div>
+      <div className="headline">WEATHER</div>
       <input
         type="text"
         value={city}
@@ -39,7 +42,10 @@ function WeatherInfo({ addHistory }) {
         {loading ? "Loading..." : "Search"}
       </button>
       <button onClick={() => navigate("/history")} className="historybtn">History</button>
-      {weather ? (
+      
+      {error && <p>{error}</p>} {/* Render error message if there's an error */}
+
+      {weather && (
         <div className="sectionInfo">
           <h3>Weather in {weather.location.name}</h3>
           <p>{weather.current.condition.text}</p>
@@ -57,10 +63,6 @@ function WeatherInfo({ addHistory }) {
             ))}
           </div>
         </div>
-      ) : (
-        weather !== null && (
-          <p>Could not fetch weather data for "{city}". Please try again.</p>
-        )
       )}
     </div>
   );
