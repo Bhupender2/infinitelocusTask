@@ -13,12 +13,9 @@ function WeatherInfo({ addHistory }) {
 
   async function fetchWeather() {
     setLoading(true);
-<<<<<<< HEAD
+
     setError(null); // Reset error state before fetching
     const url = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=8`;
-=======
-    const url = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=8`;
->>>>>>> 9eb7e6ae10ce38f382405e0c216c24d7b2fb1199
     try {
       const response = await axios.get(url);
       setWeather(response.data);
